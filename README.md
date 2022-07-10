@@ -6,3 +6,6 @@
     <li>Install python 3.8 or higher from <a href="https://www.python.org/downloads/">here</a>.</li>
     <li>Install curses module in windows by typing the command on terminal <code>pip install windows-curses</code>.</li>
 </ol>
+
+<h2>How To Run</h2>
+<p>Go to the game folder and type in your terminal <code>python snake.py</code></p>

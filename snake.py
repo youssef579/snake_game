@@ -41,9 +41,7 @@ class Snake:
         if self.body[-1] == food.position:
             self.body.append((self.body[-1][0] + self.direction[0], self.body[-1][1] + self.direction[1]))
             self.length += 1
-            while True:
-                food.position = (randint(1, LENGTH - 2), randint(2, len(body[0]) - 3))
-                if food.position not in self.body: break    
+            food.randomize()  
 
         return True
 
@@ -58,6 +56,9 @@ class Food:
         curses.curs_set(0)
         self.COLOR = curses.color_pair(2)
         self.CHARACTER = curses.ACS_DIAMOND
+        self.randomize()
+
+    def randomize(self):
         while True:
             self.position = (randint(1, LENGTH - 2), randint(2, len(body[0]) - 3))
             if self.position not in snake.body: break
@@ -115,6 +116,8 @@ def main(screen):
 
     while snake.check_collision():
         screen.clear()
+        screen.addstr("Score: " + str(snake.length - 3))
+
         try: 
             for i in range(LENGTH):
                 screen.addstr(curses.LINES // 2 - LENGTH // 2 + i, curses.COLS // 2 - 22, ''.join(body[i]))

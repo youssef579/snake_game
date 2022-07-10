@@ -115,9 +115,11 @@ def main(screen):
 
     while snake.check_collision():
         screen.clear()
-        for i in range(LENGTH):
-            screen.addstr(curses.LINES // 2 - LENGTH // 2 + i, curses.COLS // 2 - 22, ''.join(body[i]))
-
+        try: 
+            for i in range(LENGTH):
+                screen.addstr(curses.LINES // 2 - LENGTH // 2 + i, curses.COLS // 2 - 22, ''.join(body[i]))
+        except curses.error:
+            raise Exception("Your terminal size is too small to the game")
         food.draw(screen)
         snake.update(screen)
         screen.refresh()

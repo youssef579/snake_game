@@ -2,6 +2,9 @@ import curses
 from curses import wrapper
 from random import randint
 
+class TerminalSizeError(Exception):
+    pass
+
 class Snake:
     def __init__(self):
         curses.init_pair(1, curses.COLOR_GREEN, -1)
@@ -122,15 +125,19 @@ def main(screen):
             for i in range(LENGTH):
                 screen.addstr(curses.LINES // 2 - LENGTH // 2 + i, curses.COLS // 2 - 22, ''.join(body[i]))
         except curses.error:
-            raise Exception("Your terminal size is too small to the game")
+            raise TerminalSizeError("Your terminal size is too small to the game")
         food.draw(screen)
         snake.update(screen)
         screen.refresh()
 
     screen.clear()
     screen.refresh()
-
-    newwin = curses.newwin(6, 50)
+    
+    try:
+        newwin = curses.newwin(6, 50)
+    except curses.error:
+        raise TerminalSizeError("Your terminal size is too small to the game")
+    
     newwin.addstr('Game Over!\n')
     check_highest_score(newwin)
     newwin.addstr("Scroe: " + str(snake.length - 3) + '\n')
